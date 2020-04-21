@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rental.handler.CustomException;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class UserController {
 	
 	@Autowired
@@ -22,6 +24,9 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.POST, value = "/addUser")
 	@ResponseBody
 	public ResponseEntity<Boolean> signUp(@RequestBody User user) throws CustomException{
+		
+		System.out.println("Backend2");
+		
 		if(userServ.addUser(user)) {
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			
@@ -35,6 +40,7 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.GET, value = "/users")
 	@ResponseBody
 	public ResponseEntity<ArrayList<User>> getUserlist(){
+		System.out.println("Backend");
 		ArrayList<User> list = new ArrayList<User>();
 		list = userServ.getUserList();
 		return new ResponseEntity<ArrayList<User>>(list, HttpStatus.OK);

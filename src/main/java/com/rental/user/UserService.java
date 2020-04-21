@@ -29,6 +29,7 @@ public class UserService {
 	
 	public boolean addUser(User user) throws CustomException {
 		if(!this.checkIfEmailAddrExists(user) && !this.checkIfPhoneNoExists(user) && !this.checkIfUserNameExists(user)) {
+			user.setUserid(this.getNewUserId());
 			userRepo.save(user);
 			return true;
 		}
@@ -96,6 +97,18 @@ public class UserService {
 		else {
 			return true;
 		}
+	}
+	
+	public int getNewUserId() {
+		ArrayList<User> list = new ArrayList<User>();
+		list = this.getUserList();
+		int max=0;
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getUserid() > max) {
+				max = list.get(i).getUserid();
+			}
+		}
+		return max+1;
 	}
 	
 }

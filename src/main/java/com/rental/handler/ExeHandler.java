@@ -11,7 +11,7 @@ public class ExeHandler {
 	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<?> handleException(CustomException c){
 		
-		return new ResponseEntity<String>(c.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<String>(c.getMessage(), HttpStatus.CONFLICT);
 		
 	}
 
