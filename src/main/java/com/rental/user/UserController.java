@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.handler.CustomException;
 
 @Controller
@@ -23,16 +26,21 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/addUser")
 	@ResponseBody
-	public ResponseEntity<Boolean> signUp(@RequestBody User user) throws CustomException{
+	public ResponseEntity<String> signUp(@RequestBody User user) throws CustomException, JsonProcessingException{
 		
+		ObjectMapper map = new ObjectMapper();
+		String jsonString;
 		System.out.println("Backend2");
 		
+		
 		if(userServ.addUser(user)) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			jsonString = map.writeValueAsString("User added");
+			return new ResponseEntity<String>(jsonString, HttpStatus.OK);
 			
 		}
 		else {
-			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+			jsonString = map.writeValueAsString("Could not Add User");
+			return new ResponseEntity<String>(jsonString, HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 		
 	}

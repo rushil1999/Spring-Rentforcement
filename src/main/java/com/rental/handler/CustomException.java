@@ -1,5 +1,8 @@
 package com.rental.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class CustomException extends Exception{
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +24,11 @@ public class CustomException extends Exception{
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String jsonString(String msg) throws JsonProcessingException {
+		ObjectMapper map = new ObjectMapper();
+		return map.writeValueAsString(msg);
 	}
 	
 	
