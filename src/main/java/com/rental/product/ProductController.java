@@ -71,7 +71,12 @@ public class ProductController {
 	@RequestMapping(method = RequestMethod.GET, value = "/products/{category}")
 	public ResponseEntity<ArrayList<Product>> getProductListByCategory(@PathVariable String category){
 		ArrayList<Product> list = new ArrayList<Product>();
-		list = productServ.getProductListByCategory(category);
+		if(category.equals("all")) {
+			list = productServ.getPoductList();
+		}
+		else {
+			list = productServ.getProductListByCategory(category);
+		}	
 		if(list.size()>0) {
 			return new ResponseEntity<ArrayList<Product>>(list, HttpStatus.OK);
 		}

@@ -20,12 +20,13 @@ public class Product {
 	String category;
 	String doa;
 	int duration; //in days
+	boolean available;
 	
 	public Product() {
 		
 	}
 	
-	public Product(int id, String name, int age, String desc, String category, String doa, int duration) {
+	public Product(int id, String name, int age, String desc, String category, String doa, int duration, boolean available) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -34,6 +35,7 @@ public class Product {
 		this.category = category;
 		this.doa = doa;
 		this.duration = duration;
+		this.available = available;
 	}
 
 	
@@ -93,6 +95,15 @@ public class Product {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+	
 	
 	
 	
