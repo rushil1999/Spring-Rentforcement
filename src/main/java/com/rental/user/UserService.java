@@ -39,6 +39,32 @@ public class UserService {
 	}
 	
 	
+	
+	public int getNewUserId() {
+		ArrayList<User> list = new ArrayList<User>();
+		list = this.getUserList();
+		int max=0;
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getUserid() > max) {
+				max = list.get(i).getUserid();
+			}
+		}
+		return max+1;
+	}
+	
+	
+	public User getUserByUsername(String username) {
+		ArrayList<User> list = userRepo.findByUsername(username);
+		return  list.get(0);
+	}
+	
+	
+	
+	
+	//.................................Backend Validations............................................
+	
+	
+	
 	public boolean checkIfEmailAddrExists(User user) throws CustomException {
 		
 		int temp = 0;
@@ -99,16 +125,6 @@ public class UserService {
 		}
 	}
 	
-	public int getNewUserId() {
-		ArrayList<User> list = new ArrayList<User>();
-		list = this.getUserList();
-		int max=0;
-		for(int i=0;i<list.size();i++) {
-			if(list.get(i).getUserid() > max) {
-				max = list.get(i).getUserid();
-			}
-		}
-		return max+1;
-	}
+	
 	
 }

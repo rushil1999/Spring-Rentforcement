@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,12 +25,13 @@ public class ProductController {
 	private ProductService productServ;
 	
 	@RequestMapping(method = RequestMethod.POST, value="/addProduct")
-	public ResponseEntity<String> addProduct(@RequestBody Product product) throws JsonProcessingException{
+	public ResponseEntity<String> addProduct(@RequestBody Product product, @RequestHeader(name = "token") String username) throws JsonProcessingException{
 		
 		ObjectMapper map = new ObjectMapper();
+		System.out.println("User name obtained is " + username );
 		
 		String jsonString;
-		if(productServ.addProduct(product)) {
+		if(productServ.addProduct(product, username)) {
 			jsonString =  map.writeValueAsString("Product added");
 			return new ResponseEntity<String>(jsonString, HttpStatus.OK);
 			
@@ -72,15 +74,18 @@ public class ProductController {
 	public ResponseEntity<ArrayList<Product>> getProductListByCategory(@PathVariable String category){
 		ArrayList<Product> list = new ArrayList<Product>();
 		if(category.equals("all")) {
+			//System.out.println("All products found");
 			list = productServ.getPoductList();
 		}
-		else {
+		else {	
 			list = productServ.getProductListByCategory(category);
 		}	
 		if(list.size()>0) {
+			//System.out.println("Products Found by category");
 			return new ResponseEntity<ArrayList<Product>>(list, HttpStatus.OK);
 		}
 		else {
+			
 			return new ResponseEntity<ArrayList<Product>>(list, HttpStatus.NO_CONTENT);
 		}
 		

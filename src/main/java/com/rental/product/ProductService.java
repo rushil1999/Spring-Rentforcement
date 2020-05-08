@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rental.handler.CustomException;
+import com.rental.user.User;
+import com.rental.user.UserService;
+import com.rental.user.content.UserContentService;
 
 @Service
 public class ProductService {
@@ -14,14 +17,29 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepo;
 	
-	public boolean addProduct(Product prod) {
+	@Autowired
+	private UserContentService userContentService;
+	
+	@Autowired 
+	private UserService userService;
+	
+	public boolean addProduct(Product prod, String username) {
 		
 		if(this.validateProduct(prod)) {
 			
 			System.out.println(prod.getId());
 			prod.setId(this.getProductId());
-			productRepo.save(prod);
-			return true;
+			
+			
+			User user = userService.getUserByUsername(username);
+			
+			if(userContentService.addProductOfUser(prod, user)) {
+				productRepo.save(prod);
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;

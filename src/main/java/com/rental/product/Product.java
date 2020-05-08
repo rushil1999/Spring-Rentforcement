@@ -10,23 +10,28 @@ import javax.persistence.Table;
 public class Product {
 	
 	@Id
-	int id;
-	String name;
-	int age; //in months
+	private int id;
+	
+	private String name;
+	
+	private int age; //in months
 	
 	@Column(name="pdesc")
-	String desc;
+	private String desc;
 	
-	String category;
-	String doa;
-	int duration; //in days
-	boolean available;
+	private String category;
+	
+	private int duration; //in days
+	
+	private String doa;
+	
+	int price; //per day
 	
 	public Product() {
 		
 	}
 	
-	public Product(int id, String name, int age, String desc, String category, String doa, int duration, boolean available) {
+	public Product(int id, String name, int age, String desc, String category, String doa, int duration, int price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,7 +40,7 @@ public class Product {
 		this.category = category;
 		this.doa = doa;
 		this.duration = duration;
-		this.available = available;
+		this.price = price;
 	}
 
 	
@@ -96,13 +101,15 @@ public class Product {
 		this.duration = duration;
 	}
 
-	public boolean isAvailable() {
-		return available;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setAvailable(boolean available) {
-		this.available = available;
+	public void setPrice(int price) {
+		this.price = price;
 	}
+
+	
 	
 	
 	
