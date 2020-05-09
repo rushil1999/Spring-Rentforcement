@@ -23,7 +23,7 @@ public class ProductService {
 	@Autowired 
 	private UserService userService;
 	
-	public boolean addProduct(Product prod, String username) {
+	public int addProduct(Product prod, String username) {
 		
 		if(this.validateProduct(prod)) {
 			
@@ -35,14 +35,14 @@ public class ProductService {
 			
 			if(userContentService.addProductOfUser(prod, user)) {
 				productRepo.save(prod);
-				return true;
+				return prod.getId();
 			}
 			else {
-				return false;
+				return -1;
 			}
 		}
 		else {
-			return false;
+			return -1;
 		}
 		
 	}
