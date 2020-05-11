@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.handler.CustomException;
+import com.rental.product.visual.ProductVisualService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,6 +26,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productServ;
+	
+	@Autowired ProductVisualService productVisualService;
 	
 	@RequestMapping(method = RequestMethod.POST, value="/addProduct")
 	public ResponseEntity<Integer> addProduct(@RequestBody Product product, @RequestHeader(name = "token") String username) throws JsonProcessingException{
@@ -90,6 +95,19 @@ public class ProductController {
 			
 			return new ResponseEntity<ArrayList<Product>>(list, HttpStatus.NO_CONTENT);
 		}
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/image/upload")
+	public ResponseEntity<String> uploadProductImage(@RequestParam("file") MultipartFile file, @RequestHeader( name = "productId") String strProductId) throws JsonProcessingException{
+		
+		System.out.println("Product Image upload called");
+		int productId = Integer.valueOf(strProductId);
+		productVisualService.fileUpload(file, productId);
+		ObjectMapper map = new ObjectMapper();
+		String jsonString;
+		jsonString =  map.writeValueAsString("Product added");
+		return new ResponseEntity<String>(jsonString, HttpStatus.OK);
 		
 	}
 
