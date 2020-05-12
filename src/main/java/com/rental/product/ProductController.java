@@ -2,6 +2,7 @@ package com.rental.product;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.handler.CustomException;
 import com.rental.product.visual.ProductVisualService;
@@ -99,12 +101,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/image/upload")
-	public ResponseEntity<String> uploadProductImage(@RequestParam("file") MultipartFile file, @RequestHeader( name = "productId") String strProductId) throws JsonProcessingException{
+	public ResponseEntity<String> uploadProductImage(@RequestBody MultipartFile[] files, @RequestHeader( name = "productId") String strProductId) throws JsonProcessingException{
 		
-		System.out.println("Product Image upload called");
-		int productId = Integer.valueOf(strProductId);
-		productVisualService.fileUpload(file, productId);
 		ObjectMapper map = new ObjectMapper();
+		//ArrayList<MultipartFile> files = map.readValue(jsonFiles, new TypeReference<ArrayList<MultipartFile>>() {});
+		//map.convertValue(map.readValue(jsonFiles, ArrayList.class), (TypeReference<ArrayList<MultipartFile>>) new TypeReference<ArrayList<MultipartFile>>());
+		System.out.println("Product Image upload called " + files.length);
+		int productId = Integer.valueOf(strProductId);
+		//productVisualService.filesUpload(files, productId);
 		String jsonString;
 		jsonString =  map.writeValueAsString("Product added");
 		return new ResponseEntity<String>(jsonString, HttpStatus.OK);
