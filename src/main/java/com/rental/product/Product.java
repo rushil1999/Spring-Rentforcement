@@ -27,11 +27,13 @@ public class Product {
 	
 	int price; //per day
 	
+	String image;
+	
 	public Product() {
 		
 	}
 	
-	public Product(int id, String name, int age, String desc, String category, String doa, int duration, int price) {
+	public Product(int id, String name, int age, String desc, String category, String doa, int duration, int price, String image) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -41,6 +43,7 @@ public class Product {
 		this.doa = doa;
 		this.duration = duration;
 		this.price = price;
+		this.image = image;
 	}
 
 	
@@ -109,6 +112,16 @@ public class Product {
 		this.price = price;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	
+	
 	
 	
 	

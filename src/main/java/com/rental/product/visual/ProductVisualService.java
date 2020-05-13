@@ -7,17 +7,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.rental.product.Product;
+import com.rental.product.ProductRepository;
 
 @Service
 public class ProductVisualService {
 	
 	@Autowired 
 	private ProductVisualRepository productVisualRepo;
+	
+	@Autowired 
+	private ProductRepository productRepo;
 	
 	
 	
@@ -46,6 +55,12 @@ public class ProductVisualService {
 			e.printStackTrace();
 			//Throw exception...
 		}
+		
+		
+		//Storing in database
+		Product product = productRepo.findById(productId).get();
+		product.setImage(storeName);
+		productRepo.save(product);
 		
 		productVisualRepo.save(new ProductVisual(productId, storeName));
 		
@@ -94,5 +109,11 @@ public class ProductVisualService {
 	
 	public int getLatestFileNumber() {
 		return (int) (productVisualRepo.count()+1);
+	}
+	
+	public String getImageForProduct(int productId){
+		
+		String temp = productVisualRepo.getProductImage(productId).get(0);
+		return temp;
 	}
 }
