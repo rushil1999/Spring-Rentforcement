@@ -113,7 +113,32 @@ public class ProductVisualService {
 	
 	public String getImageForProduct(int productId){
 		
-		String temp = productVisualRepo.getProductImage(productId).get(0);
+		String temp = productVisualRepo.getProductImage(productId).get(0).getLink();
 		return temp;
+	}
+	
+	public ArrayList<ProductImage> sendPackets(ArrayList<Product> list){
+		
+		
+		ArrayList<ProductImage> del = new ArrayList<ProductImage>();
+		int i;
+		String temp;
+		for(i=0;i<list.size();i++) {
+			temp = this.getImageForProduct(list.get(i).getId());
+			del.add(new ProductImage(list.get(i), temp));
+			
+		}
+		for(i=0;i<del.size();i++) {
+			System.out.println(del.get(i).getProduct().getName() + " "+ del.get(i).getImage());
+		}
+		return del;
+		
+	}
+	
+	public ProductImage getProductDetailswithImage(Product prod) {
+		
+		String temp = this.getImageForProduct(prod.getId());
+		ProductImage productImage = new ProductImage(prod, temp);
+		return productImage;
 	}
 }

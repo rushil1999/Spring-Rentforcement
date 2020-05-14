@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductVisualRepository extends CrudRepository<ProductVisual, ProductVisualId>{
 	
-	@Query(nativeQuery = true, value = "selecte * from product_visual where product_id = ?1")
-	public ArrayList<String> getProductImage(@Param("product_id") int product_id);
+	@Query(nativeQuery = true, value = "select * from product_visual where id = ?1")
+	public ArrayList<ProductVisual> getProductImage(@Param("product_id") int product_id);
 	
 	
 
