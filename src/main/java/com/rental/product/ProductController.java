@@ -89,6 +89,21 @@ public class ProductController {
 		
 	}
 	
+	@RequestMapping( method = RequestMethod.PUT, value = "/updateProduct")
+	public ResponseEntity<String> updateProduct(@RequestBody Product product) throws JsonProcessingException{
+		ObjectMapper map = new ObjectMapper();
+		String jsonString;
+		if(productServ.updateProduct(product)) {
+			
+			jsonString = map.writeValueAsString("Product Updated");
+			return new ResponseEntity<String>(jsonString, HttpStatus.OK);
+		}
+		else {
+			jsonString = map.writeValueAsString("Product Could not be Updated");
+			return new ResponseEntity<String>(jsonString, HttpStatus.CONFLICT);
+		}
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/products/{category}")
 	public ResponseEntity<ArrayList<Product>> getProductListByCategory(@PathVariable String category, @RequestHeader( name = "username") String username) throws CustomException{
 		//System.out.println("Rock on!!!");

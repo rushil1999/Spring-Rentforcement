@@ -111,7 +111,15 @@ public class ProductService {
 		return true;
 	}
 	
-	
+	public boolean updateProduct(Product prod) {
+		if(productRepo.existsById(prod.getId())) {
+			productRepo.save(prod);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	
 	
